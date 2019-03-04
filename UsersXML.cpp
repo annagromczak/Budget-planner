@@ -2,6 +2,8 @@
 
 void UsersXML::addUserToFile(User user)
 {
+    xml.Load(usersXMLFileName);
+
     if(isFileEmpty(usersXMLFileName) == false)
     {
         xml.AddElem("Users");
@@ -9,7 +11,6 @@ void UsersXML::addUserToFile(User user)
         xml.Save(usersXMLFileName);
     }
 
-    xml.Load(usersXMLFileName);
     xml.FindElem();
     xml.IntoElem();
 
@@ -22,8 +23,6 @@ void UsersXML::addUserToFile(User user)
     xml.AddElem("Surname", user.getSurname());
 
     xml.Save(usersXMLFileName);
-    cout << "The new user has been saved." << endl;
-    system ("pause");
 }
 
 vector <User> UsersXML::loadUsersFromFile()
@@ -32,26 +31,31 @@ vector <User> UsersXML::loadUsersFromFile()
     vector <User> users;
 
     xml.Load(usersXMLFileName);
-    xml.FindElem();
+    xml.ResetPos();
+    xml.FindElem("Users");
     xml.IntoElem();
+
     while (xml.FindElem("User")) {
         xml.IntoElem();
         xml.FindElem("UserId");
         user.setUserId(HelperMethods::conversionStringToInt(xml.GetData()));
+
         xml.FindElem("Login");
         user.setLogin(xml.GetData());
+
         xml.FindElem("Password");
         user.setPassword(xml.GetData());
+
         xml.FindElem("Name");
         user.setName(xml.GetData());
+
         xml.FindElem("Surname");
         user.setSurname(xml.GetData());
 
         xml.ResetMainPos();
-        xml.OutOfElem();
         users.push_back(user);
+        xml.OutOfElem();
     }
-
     return users;
 }
 

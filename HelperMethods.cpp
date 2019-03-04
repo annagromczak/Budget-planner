@@ -17,6 +17,22 @@ int HelperMethods::conversionStringToInt(string number)
     return numberInt;
 }
 
+string HelperMethods::conversionDoubleToString (double number)
+{
+    ostringstream os;
+    os << number;
+    string stringNumber = os.str();
+    return stringNumber;
+}
+
+double HelperMethods::conversionStringToDouble(string number)
+{
+    double numberDouble;
+    numberDouble = atof(number.c_str());
+
+    return numberDouble;
+}
+
 string HelperMethods::changeFirstLetterToUpperAndOtherLettesToLower(string text)
 {
     if (!text.empty())
@@ -39,7 +55,7 @@ int HelperMethods::getIntegerNumber()
         stringstream myStream(entrance);
         if (myStream >> number)
             break;
-        cout << "It is not a number. Try again. " << endl;
+        cout << "It is not a number. Try again." << endl;
     }
     return number;
 }

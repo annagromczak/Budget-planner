@@ -13,6 +13,8 @@ class MenuManager
 public:
     static char chooseMainMenuOption();
     static char chooseUserMenuOption();
+    static char dateIncomeManager();
+    static char dateExpenseManager();
 };
 
 #endif

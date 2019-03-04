@@ -16,11 +16,10 @@ class IncomesXML
 {
     CMarkup xml;
     const string incomesXMLfilename;
-    int loggedUserId;
+    int lastIncomeId;
 
 private:
     bool isFileEmpty(string incomesXMLfilename);
-
 
 public:
     IncomesXML(string INCOMES_XML_FILE_NAME) : incomesXMLfilename(INCOMES_XML_FILE_NAME) {};
@@ -28,7 +27,6 @@ public:
     void addIncomeToFile(Income income);
     vector <Income> loadIncomesFromFile(int ID_LOGGED_USER);
     int getIdLastIncome();
-
 };
 
 #endif

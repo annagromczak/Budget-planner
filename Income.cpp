@@ -12,7 +12,7 @@ void Income::setUserId(int newUserId)
         userId = newUserId;
 }
 
-void Income::setDate(string newDate)
+void Income::setDate(int newDate)
 {
     date = newDate;
 }
@@ -22,7 +22,7 @@ void Income::setItem(string newItem)
     item = newItem;
 }
 
-void Income::setAmount(string newAmount)
+void Income::setAmount(double newAmount)
 {
     amount = newAmount;
 }
@@ -37,7 +37,7 @@ int Income::getUserId()
     return userId;
 }
 
-string Income::getDate()
+int Income::getDate()
 {
     return date;
 }
@@ -47,7 +47,7 @@ string Income::getItem()
     return item;
 }
 
-string Income::getAmount()
+double Income::getAmount()
 {
     return amount;
 }

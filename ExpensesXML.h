@@ -16,7 +16,7 @@ class ExpensesXML
 {
     CMarkup xml;
     const string expensesXMLFileName;
-    int loggedUserId;
+    int lastExpenseId;
 
 private:
     bool isFileEmpty(string expensesXMLfilename);
