@@ -2,6 +2,10 @@
 
 void ExpensesXML::addExpenseToFile(Expense expense)
 {
+    string amount;
+
+    xml.Load(expensesXMLFileName);
+
     if(isFileEmpty(expensesXMLFileName) == false)
     {
         xml.AddElem("Expenses");
@@ -9,7 +13,6 @@ void ExpensesXML::addExpenseToFile(Expense expense)
         xml.Save(expensesXMLFileName);
     }
 
-    xml.Load(expensesXMLFileName);
     xml.FindElem();
     xml.IntoElem();
 
@@ -19,7 +22,8 @@ void ExpensesXML::addExpenseToFile(Expense expense)
     xml.AddElem("UserId", expense.getUserId());
     xml.AddElem("Date", expense.getDate());
     xml.AddElem("Item", expense.getItem());
-    xml.AddElem("Amount", expense.getAmount());
+    amount = HelperMethods::conversionDoubleToString(expense.getAmount());
+    xml.AddElem("Amount", amount);
 
     xml.Save(expensesXMLFileName);
     cout << "The new expense has been saved." << endl;
@@ -30,31 +34,47 @@ vector <Expense> ExpensesXML::loadExpensesFromFile(int ID_LOGGED_USER)
 {
     Expense expense;
     vector <Expense> expenses;
+    int userIdFile = 0;
 
     xml.Load(expensesXMLFileName);
-    xml.FindElem();
+    xml.ResetPos();
+    xml.FindElem("Expenses");
     xml.IntoElem();
-    while (xml.FindElem("Expenses"))
+
+    while (xml.FindElem("Expense"))
     {
         xml.IntoElem();
         xml.FindElem("UserId");
-        int userIdFile = HelperMethods::conversionStringToInt(xml.GetData());
+        userIdFile = HelperMethods::conversionStringToInt(xml.GetData());
+
         if (ID_LOGGED_USER == userIdFile)
         {
+            xml.ResetMainPos();
             xml.IntoElem();
+
             xml.FindElem("ExpenseId");
             expense.setExpenseId(HelperMethods::conversionStringToInt(xml.GetData()));
+            xml.ResetMainPos();
+
+            xml.FindElem("UserId");
+            expense.setUserId(HelperMethods::conversionStringToInt(xml.GetData()));
+            xml.ResetMainPos();
+
             xml.FindElem("Date");
-            expense.setDate(xml.GetData());
+            expense.setDate(HelperMethods::conversionStringToInt(xml.GetData()));
+            xml.ResetMainPos();
+
             xml.FindElem("Item");
             expense.setItem(xml.GetData());
+            xml.ResetMainPos();
+
             xml.FindElem("Amount");
-            expense.setAmount(xml.GetData());
+            expense.setAmount(HelperMethods::conversionStringToDouble(xml.GetData()));
+            xml.ResetMainPos();
 
             expenses.push_back(expense);
-            xml.ResetMainPos();
-            xml.OutOfElem();
         }
+        xml.OutOfElem();
     }
     return expenses;
 }
@@ -76,9 +96,9 @@ bool ExpensesXML::isFileEmpty(string ExpensesXMLFileName)
 int ExpensesXML::getIdLastExpense()
 {
     Expense expense;
-    int idLastexpense = 0;
 
     xml.Load(expensesXMLFileName);
+
     xml.ResetPos();
     xml.FindElem();
     xml.IntoElem();
@@ -86,8 +106,9 @@ int ExpensesXML::getIdLastExpense()
     {
         xml.IntoElem();
         xml.FindElem("ExpenseId");
-        idLastexpense = HelperMethods::conversionStringToInt(xml.GetData());
+        lastExpenseId = HelperMethods::conversionStringToInt(xml.GetData());
         xml.OutOfElem();
     }
-    return idLastexpense;
+
+    return lastExpenseId;
 }

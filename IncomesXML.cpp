@@ -2,6 +2,10 @@
 
 void IncomesXML::addIncomeToFile(Income income)
 {
+    string amount;
+
+    xml.Load(incomesXMLfilename);
+
     if(isFileEmpty(incomesXMLfilename) == false)
     {
         xml.AddElem("Incomes");
@@ -9,7 +13,6 @@ void IncomesXML::addIncomeToFile(Income income)
         xml.Save(incomesXMLfilename);
     }
 
-    xml.Load(incomesXMLfilename);
     xml.FindElem();
     xml.IntoElem();
 
@@ -19,7 +22,8 @@ void IncomesXML::addIncomeToFile(Income income)
     xml.AddElem("UserId", income.getUserId());
     xml.AddElem("Date", income.getDate());
     xml.AddElem("Item", income.getItem());
-    xml.AddElem("Amount", income.getAmount());
+    amount = HelperMethods::conversionDoubleToString(income.getAmount());
+    xml.AddElem("Amount", amount);
 
     xml.Save(incomesXMLfilename);
     cout << "The new income has been saved." << endl;
@@ -30,31 +34,47 @@ vector <Income> IncomesXML::loadIncomesFromFile(int ID_LOGGED_USER)
 {
     Income income;
     vector <Income> incomes;
+    int userIdFile = 0;
 
     xml.Load(incomesXMLfilename);
-    xml.FindElem();
+    xml.ResetPos();
+    xml.FindElem("Incomes");
     xml.IntoElem();
+
     while (xml.FindElem("Income"))
     {
         xml.IntoElem();
         xml.FindElem("UserId");
-        int userIdFile = HelperMethods::conversionStringToInt(xml.GetData());
+        userIdFile = HelperMethods::conversionStringToInt(xml.GetData());
+
         if (ID_LOGGED_USER == userIdFile)
         {
+            xml.ResetMainPos();
             xml.IntoElem();
+
             xml.FindElem("IncomeId");
             income.setIncomeId(HelperMethods::conversionStringToInt(xml.GetData()));
+            xml.ResetMainPos();
+
+            xml.FindElem("UserId");
+            income.setUserId(HelperMethods::conversionStringToInt(xml.GetData()));
+            xml.ResetMainPos();
+
             xml.FindElem("Date");
-            income.setDate(xml.GetData());
+            income.setDate(HelperMethods::conversionStringToInt(xml.GetData()));
+            xml.ResetMainPos();
+
             xml.FindElem("Item");
             income.setItem(xml.GetData());
+            xml.ResetMainPos();
+
             xml.FindElem("Amount");
-            income.setAmount(xml.GetData());
+            income.setAmount(HelperMethods::conversionStringToDouble(xml.GetData()));
+            xml.ResetMainPos();
 
             incomes.push_back(income);
-            xml.ResetMainPos();
-            xml.OutOfElem();
         }
+        xml.OutOfElem();
     }
     return incomes;
 }
@@ -76,7 +96,6 @@ bool IncomesXML::isFileEmpty(string incomesXMLFileName)
 int IncomesXML::getIdLastIncome()
 {
     Income income;
-    int idLastIncome = 0;
 
     xml.Load(incomesXMLfilename);
 
@@ -87,8 +106,8 @@ int IncomesXML::getIdLastIncome()
     {
         xml.IntoElem();
         xml.FindElem("IncomeId");
-        idLastIncome = HelperMethods::conversionStringToInt(xml.GetData());
+        lastIncomeId = HelperMethods::conversionStringToInt(xml.GetData());
         xml.OutOfElem();
     }
-    return idLastIncome;
+    return lastIncomeId;
 }

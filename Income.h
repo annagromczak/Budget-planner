@@ -2,6 +2,7 @@
 #define INCOME_H
 
 #include <iostream>
+#include "DateManager.h"
 
 using namespace std;
 
@@ -9,22 +10,22 @@ class Income
 {
     int incomeId;
     int userId;
-    string date;
+    int date;
     string item;
-    string amount;
+    double amount;
 
 public:
     void setIncomeId(int newIncomeId);
     void setUserId(int newUserId);
-    void setDate(string newDate);
+    void setDate(int newDate);
     void setItem(string newItem);
-    void setAmount(string newAmount);
+    void setAmount(double newAmount);
 
     int getIncomeId();
     int getUserId();
-    string getDate();
+    int getDate();
     string getItem();
-    string getAmount();
+    double getAmount();
 };
 
 #endif // EXPENSE

@@ -38,3 +38,27 @@ char MenuManager::chooseUserMenuOption()
 
     return choice;
 }
+
+char MenuManager::dateIncomeManager()
+{
+    char choice;
+
+    cout << "1. Add an income with today's date" << endl;
+    cout << "2. Add an income with a different date" << endl;
+
+    choice = HelperMethods::getChar();
+
+    return choice;
+}
+
+char MenuManager::dateExpenseManager()
+{
+    char choice;
+
+    cout << "1. Add an expense with today's date" << endl;
+    cout << "2. Add an expense with a different date" << endl;
+
+    choice = HelperMethods::getChar();
+
+    return choice;
+}

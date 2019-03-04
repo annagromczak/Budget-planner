@@ -12,6 +12,8 @@ class HelperMethods
 public:
     static string conversionIntToString(int number);
     static int conversionStringToInt(string number);
+    static double conversionStringToDouble(string number);
+    static string conversionDoubleToString (double number);
     static string changeFirstLetterToUpperAndOtherLettesToLower(string text);
     static int getIntegerNumber();
     static char getChar();
