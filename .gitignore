@@ -1,5 +1,8 @@
 bin/
 obj/
 plan/
-BudgetPlanner.*
+BudgetPlanner.depend
+BudgetPlanner.cbp
+BudgetPlanner.mm
+BudgetPlanner.layout
 *.xml
